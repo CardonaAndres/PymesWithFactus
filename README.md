@@ -82,9 +82,9 @@ Para facilitar el despliegue de la aplicación, se ha incluido soporte para Dock
    npm start
    ```
 
-El servidor estará disponible en [http://localhost:3000](http://localhost:3000).
+El servidor estará disponible en [http://localhost:5050](http://localhost:5050).
 
 ---
 
 ¡Listo! Ahora puedes comenzar a utilizar el backend de este sistema de facturación electrónica.
-```
+
