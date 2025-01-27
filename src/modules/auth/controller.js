@@ -170,28 +170,20 @@ export const changePassword = async(req, res, next) => {
 
 export const verifyToken = async (req, res, next) => {
     try {
-        const token = req.cookies?.token;
+        const token = req.cookies.tokenClient;
 
         if(!token){
             const err = new Error('Por favor, iniciar sesión');
-            err.status = 401
-            throw err
+            err.status = 401;
+            throw err;
         }
 
-        JWT.verify(token, SECRET_KEY, (err, decoded) => {
-            if (err) {
-                const message = err.name === 'TokenExpiredError'
-                    ? 'El token ha expirado. Por favor, inicia sesión nuevamente.'
-                    : 'Token inválido. Acceso denegado.';
-                return res.status(403).json({ message });
-            }
+        const decoded = JWT.verify(token, SECRET_KEY);
+        req.user = decoded;
 
-            req.user = decoded
-
-            return res.status(200).json(decoded);
-        });
+        return res.status(200).json({ user : decoded });  
 
     } catch (err) {
-        next(err)
+        next(err);
     }
 }
