@@ -3,7 +3,7 @@ import JWT from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
     try {
-        const token = req.cookies.token;
+        const token = req.cookies.tokenClient;
         if (!token) 
             return res.status(401).json({ message: "Token no encontrado. Acceso no autorizado." });
           
@@ -17,8 +17,6 @@ export const verifyToken = (req, res, next) => {
             req.user = decoded;
             next();
         });
-
-        
 
     } catch (err){
         return res.status(403).json({
