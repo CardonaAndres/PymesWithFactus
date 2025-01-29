@@ -119,6 +119,11 @@ export const logout = async (req, res, next) => {
             sameSite: 'none',
         });
 
+        res.clearCookie('tokenClient', {
+            secure: isProduction, // Solo en HTTPS en producción
+            sameSite: 'none',
+        });
+
         return res.status(200).json({ message: 'Sesión cerrada correctamente, vuelve pronto' });
 
     } catch (err) {
