@@ -6,14 +6,14 @@ import { getTokenAccess } from './tokenFactusAccess.js';
 import { factusConfig } from '../../configs/config.js';
 import { payment_forms, payment_method_codes, legal_organizations } from '../../configs/config.js';
 
-const accesToken = await getTokenAccess();
-
 export const getMunicipalitie = async (name) => {
     try {
+        const factusToken = await getTokenAccess();
+
         const res = await fetch(`${factusConfig.URL_BASE}/v1/municipalities?name=${name}`, {
             method : 'GET', headers : {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accesToken}`,
+                'Authorization': `Bearer ${factusToken}`,
                 'Accept': 'application/json',
             }
         });
@@ -31,10 +31,12 @@ export const getMunicipalitie = async (name) => {
 
 export const getMeasurementUnits = async () => {
     try {
+        const factusToken = await getTokenAccess();
+
         const res = await fetch(`${factusConfig.URL_BASE}/v1/measurement-units`, {
             method : 'GET', headers : {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accesToken}`,
+                'Authorization': `Bearer ${factusToken}`,
                 'Accept': 'application/json',
             }
         });
@@ -52,11 +54,12 @@ export const getMeasurementUnits = async () => {
 
 export const getAllBills = async (req, res, next) => {
     try {
+        const factusToken = await getTokenAccess();
         const { page = 1 } = req.query;
         const factusRes = await fetch(`${factusConfig.URL_BASE}/v1/bills?page=${page}`, {
             method : 'GET', headers : {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accesToken}`,
+                'Authorization': `Bearer ${factusToken}`,
                 'Accept': 'application/json',
             }
         });
@@ -74,7 +77,7 @@ export const getAllBills = async (req, res, next) => {
 export const getBillByNumber = async (req, res, next) => {
     try {
         const { number } = req.params;
-
+        const factusToken = await getTokenAccess();
         if(!number){
             const err = new Error('El número de factura es requerido');
             err.status = 400;
@@ -84,7 +87,7 @@ export const getBillByNumber = async (req, res, next) => {
         const factusRes = await fetch(`${factusConfig.URL_BASE}/v1/bills/show/${number}`, {
             method : 'GET', headers : {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accesToken}`,
+                'Authorization': `Bearer ${factusToken}`,
                 'Accept': 'application/json',
             }
         });
@@ -101,6 +104,7 @@ export const getBillByNumber = async (req, res, next) => {
 
 export const createBill = async (req, res, next) => {
     try {
+        const factusToken = await getTokenAccess();
         const { user_ID } = req.user; const products = []; 
         let isPaymentMethodCodeValid = false; let isPaymentFormValid = false;
         let isLegalOrganizationValid = false;
@@ -200,7 +204,7 @@ export const createBill = async (req, res, next) => {
         const createBillRequest = await fetch(`${factusConfig.URL_BASE}/v1/bills/validate`, {
             method : 'POST', headers : {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accesToken}`,
+                'Authorization': `Bearer ${factusToken}`,
                 'Accept': 'application/json',
             }, body : JSON.stringify(bill)
         });
