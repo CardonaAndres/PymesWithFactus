@@ -52,6 +52,17 @@ export const getMeasurementUnits = async () => {
     }
 } 
 
+export const getMeasurementUnitsRequest = async (req, res, next) => {
+    try {
+        const measurementUnits = await getMeasurementUnits();
+        if(!measurementUnits.status) throw new Error(measurementUnits.message)
+        return res.status(200).json(measurementUnits)
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 export const getAllBills = async (req, res, next) => {
     try {
         const factusToken = await getTokenAccess();
