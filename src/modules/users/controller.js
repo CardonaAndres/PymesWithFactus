@@ -65,7 +65,6 @@ export const profile = async (req, res, next) => {
     } catch (err){
         next(err);
     }
-
 }
 
 export const update = async (req, res, next) => {
@@ -120,7 +119,6 @@ export const update = async (req, res, next) => {
     } catch (err){
         next(err);
     }
-
 }
 
 export const updateByAdmin = async (req, res, next) => {
@@ -137,9 +135,9 @@ export const updateByAdmin = async (req, res, next) => {
 
         const isInUseUserID = await getUserByID(new_user_ID);
 
-        if(isInUseUserID){
+        if(isInUseUserID.email !== currentUser.email){
             const err = new Error('CC / NIT en uso');
-            err.status = 404;
+            err.status = 400;
             throw err
         }
 
@@ -150,7 +148,6 @@ export const updateByAdmin = async (req, res, next) => {
         return res.status(200).json({
             message : 'Información actualizada correctamente'
         })
-    
 
     } catch (err){
         next(err);
