@@ -1,6 +1,18 @@
 import * as ProductModel from './model.js';
 import * as FactusController from '../factusAPI/controller.js';
 
+export const getAllMyProducts = async (req, res, next) => {
+    try {
+        
+        const { user_ID } = req.user; 
+        const products = await ProductModel.getMyProducts(user_ID);
+        return res.status(200).json( products );
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 export const getMyProducts = async (req, res, next) => {
     try {
         const { user_ID } = req.user; const { page = 1 } = req.query; 

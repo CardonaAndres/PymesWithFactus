@@ -5,6 +5,18 @@ export const getAllContacts = async (req, res, next) => {
     try {
 
         const { user_ID } = req.user;
+        const contacts = await ContactModel.getAllContacts(user_ID);
+        return res.status(200).json(contacts);
+
+    } catch (err) {
+        next(err);
+    }
+}
+
+export const getAllContactsPaginate = async (req, res, next) => {
+    try {
+
+        const { user_ID } = req.user;
         const { page = 1 } = req.query; 
         const offset = (page - 1) * 12; 
         const totalContacts = await ContactModel.getTotalContacts(user_ID)

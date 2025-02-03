@@ -2,6 +2,14 @@ import { connDB } from '../../utils/dataBase.js';
 
 const conn = await connDB();
 
+export const getAllContacts = async (user_ID) => {
+    const [ contacts ] = await conn.query(
+        `SELECT * FROM contacts WHERE user_ID = ? `, [ user_ID ]
+    );
+
+    return contacts;
+}
+
 export const getAllContactsPaginate = async (user_ID, offset) => {
     const [ contacts ] = await conn.query(
         `SELECT * FROM contacts WHERE user_ID = ? LIMIT 12 OFFSET ?`, [user_ID, offset]

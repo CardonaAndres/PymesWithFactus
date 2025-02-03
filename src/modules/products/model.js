@@ -2,6 +2,14 @@ import { connDB } from "../../utils/dataBase.js";
 
 const conn = await connDB();
 
+export const getMyProducts = async (user_ID) => {
+    const [ products ] = await conn.query(
+        `SELECT * FROM products WHERE user_ID = ?`,[ user_ID ]
+    );
+
+    return products;
+}
+
 export const getMyProductsPaginate = async (user_ID, offset) => {
     const [ products ] = await conn.query(
         `SELECT * FROM products WHERE user_ID = ? LIMIT 12 OFFSET ?`,[ user_ID, offset]
